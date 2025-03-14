@@ -19,20 +19,10 @@ This project simulates an **Advanced Persistent Threat (APT)** attack, covering 
 - The dropper downloads **shellcode (reverse shell)** from the attacker's server.
 - A **PowerShell script** is executed to establish **persistence** via **Hijacking File Associations**.
 
-### **4. Privilege Escalation & Lateral Movement**
-
-- If necessary, privilege escalation techniques are attempted.
-- The attacker explores ways to move laterally within the target network.
-
-### **5. Data Exfiltration (Document Theft)**
+### **4. Data Exfiltration (Document Theft)**
 
 - A **PowerShell document stealer** searches for sensitive files (**.txt, .pdf, .xlsx, .csv**).
 - Stolen files are uploaded to a **remote PHP web server** controlled by the attacker.
-
-### **6. Cleanup & Covering Tracks**
-
-- Log files and traces of execution are removed to evade detection.
-- Persistence mechanisms remain in place for future access.
 
 ## **Components**
 
