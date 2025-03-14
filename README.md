@@ -39,3 +39,7 @@ This project simulates an **Advanced Persistent Threat (APT)** attack, covering 
 - **PHP Web Server**: Receives stolen files.
 - **HTML Smuggling (HTML & JavaScript)**: dropper delivery.
 - **Phishing Document (DOCX)**: Social engineering bait.
+
+### **Disclaimer**
+
+This repository contains code related to **malware simulation and penetration testing**. It is intended for **educational and research purposes only** in a **controlled and legal environment** such as virtual machines or isolated test networks. **The author does not condone or take responsibility for any illegal or unethical activities performed using this code.** Use at your own risk and ensure compliance with applicable laws and regulations.
