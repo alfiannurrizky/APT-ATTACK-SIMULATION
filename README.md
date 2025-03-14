@@ -16,8 +16,9 @@ This project simulates an **Advanced Persistent Threat (APT)** attack, covering 
 
 ### **3. Payload Deployment (Execution & Persistence)**
 
-- The dropper downloads **shellcode (reverse shell)** from the attacker's server.
-- A **PowerShell script** is executed to establish **persistence** via **Hijacking File Associations**.
+- The dropper downloads **shellcode (reverse shell)** and persist.ps1 file from the attacker's server.
+- The dropper.exe manipulates the **registry value** at `HKEY_LOCAL_MACHINE\SOFTWARE\Classes\txtfile\shell\open\command` to execute `persist.ps1`.
+- When the user opens any **.txt file**, the manipulated registry value triggers `persist.ps1`, which establishes a **reverse shell** connection to the attacker's server.
 
 ### **4. Data Exfiltration (Document Theft)**
 
