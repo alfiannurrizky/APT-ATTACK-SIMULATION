@@ -6,7 +6,7 @@ This project simulates an **Advanced Persistent Threat (APT)** attack, covering 
 
 ### **1. Phishing (Initial Access)**
 
-- A malicious **job description document (.docx)** is sent to the target.
+- A malicious **job application document (.docx)** is sent to the target.
 - The document contains a **link to an HTML Smuggling page** that automatically downloads the initial dropper (**dropper.exe**).
 
 ### **2. HTML Smuggling (Dropper Execution)**
